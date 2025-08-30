@@ -40,8 +40,13 @@ public class BlueprintsServices {
      * @return the blueprint of the given name created by the given author
      * @throws BlueprintNotFoundException if there is no such blueprint
      */
-    public Blueprint getBlueprint(String author,String name) throws BlueprintNotFoundException{
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public Blueprint getBlueprint(String author, String name) throws BlueprintNotFoundException {
+        Blueprint blueprint = bpp.getBlueprint(author, name);
+
+        if (blueprint == null) {
+            throw new BlueprintNotFoundException("Blueprint not found for author: " + author + " and name: " + name);
+        }
+        return blueprint;
     }
     
     /**
@@ -50,8 +55,14 @@ public class BlueprintsServices {
      * @return all the blueprints of the given author
      * @throws BlueprintNotFoundException if the given author doesn't exist
      */
-    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException{
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException {
+        Set<Blueprint> blueprints = bpp.getBlueprintsByAuthor(author);
+
+        if (blueprints == null || blueprints.isEmpty()) {
+            throw new BlueprintNotFoundException("No blueprints found for author: " + author);
+        }
+
+        return blueprints;
     }
     
 }
