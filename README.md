@@ -102,7 +102,7 @@ Las dependencias y configuraciones se agregaron en base a lo que estaba en el ce
 
 5. Agrege las pruebas correspondientes a cada uno de estos filtros, y pruebe su funcionamiento en el programa de prueba, comprobando que sólo cambiando la posición de las anotaciones -sin cambiar nada más-, el programa retorne los planos filtrados de la manera (A) o de la manera (B). 
 
-**Para terminar generamos una clase de prueba por filtro (2 en total) y para que no existan problemas al momento de correrlas en el testConfig definimos que filtro se usara:** 
+**Para terminar generamos una clase de prueba por filtro (2 en total) y para que no existan problemas al momento de correrlas en el testConfig definimos que filtro se usara ademas de quitar el @primary** 
 
 **RedundancyFilterTest**
 
@@ -111,3 +111,18 @@ Las dependencias y configuraciones se agregaron en base a lo que estaba en el ce
 **SubsamplingFilterTest**
 
 ![](img/subsamplingFilterTest.png)
+
+**Evidencias de que todas las pruebas pasan:**
+
+```InMemoryPersistenceTest```
+
+![](img/prueba1.png)
+
+```RedundancyFilterTest```
+
+![](img/prueba2.png)
+
+```SubsamplingFilterTest```
+
+![](img/prueba3.png)
+
