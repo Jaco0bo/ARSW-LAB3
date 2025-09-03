@@ -23,6 +23,8 @@ public interface BlueprintsPersistence {
      *    or any other low-level persistence error occurs.
      */
     public void saveBlueprint(Blueprint bp) throws BlueprintPersistenceException;
+
+    public HashSet<Blueprint> getAllBlueprints() throws BlueprintPersistenceException;
     
     /**
      * 

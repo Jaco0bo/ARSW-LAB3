@@ -5,12 +5,12 @@
  */
 package edu.eci.arsw.blueprints.services;
 
+import edu.eci.arsw.blueprints.filters.BluePrintsFilter;
 import edu.eci.arsw.blueprints.model.Blueprint;
-import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
+import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
-import java.util.LinkedHashMap;
-import java.util.Map;
+
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +20,30 @@ import org.springframework.stereotype.Service;
  * @author hcadavid
  */
 @Service
-public class BlueprintsServices {
+public class BluePrintServices {
    
     @Autowired
     BlueprintsPersistence bpp=null;
-    
-    public void addNewBlueprint(Blueprint bp){
-        
+
+    @Autowired
+    BluePrintsFilter filter;
+
+    public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
+        bpp.saveBlueprint(bp);
     }
     
-    public Set<Blueprint> getAllBlueprints(){
-        return null;
+    public Set<Blueprint> getAllBlueprints() throws BlueprintPersistenceException{
+        Set<Blueprint> blueprints = bpp.getAllBlueprints();
+
+        if (blueprints == null || blueprints.isEmpty()) {
+            throw new BlueprintPersistenceException("No blueprints found");
+        }
+
+        Set<Blueprint> filtered = new java.util.HashSet<>();
+        for (Blueprint bp : blueprints) {
+            filtered.add(filter.applyFilter(bp));
+        }
+        return filtered;
     }
     
     /**
@@ -46,7 +59,7 @@ public class BlueprintsServices {
         if (blueprint == null) {
             throw new BlueprintNotFoundException("Blueprint not found for author: " + author + " and name: " + name);
         }
-        return blueprint;
+        return filter.applyFilter(blueprint);
     }
     
     /**
@@ -62,7 +75,12 @@ public class BlueprintsServices {
             throw new BlueprintNotFoundException("No blueprints found for author: " + author);
         }
 
-        return blueprints;
+        Set<Blueprint> filtered = new java.util.HashSet<>();
+        for (Blueprint bp : blueprints) {
+            filtered.add(filter.applyFilter(bp));
+        }
+
+        return filtered;
     }
     
 }
